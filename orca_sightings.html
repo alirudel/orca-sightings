@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8 />
+        <title>Orca Sightings</title>
+        <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+        <script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
+        <link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
+        <style>
+          body { margin:0; padding:0; }
+          #map { position:absolute; top:0; bottom:0; width:100%; }
+
+        </style>
+        </head>
+        <body>
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/leaflet.markercluster.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.css' rel='stylesheet' />
+<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.Default.css' rel='stylesheet' />
+<script src="whales.js"></script>
+
+<div id='map'></div>
+
+<script>
+    L.mapbox.accessToken = 'pk.eyJ1IjoiYWxpcnVkZWwiLCJhIjoiY2tseTdpeXJwMGc0NjJucWttM3l6M3dubCJ9.nM0kzr3G-822dc1q6HO5Ag';
+
+    const map = L.mapbox.map('map')
+        .setView([48.9, -123], 7)
+        .addLayer(L.mapbox.styleLayer('mapbox://styles/alirudel/cklzamc9m6jdn17qfihpv0iml'));
+        
+    const markers = new L.MarkerClusterGroup();
+    const data = orcas;
+    const length = data.length;
+
+    for (let i = 0; i < length; i++){
+        const a = data[i];
+        const title = a.sighted_at.slice(0, 10)
+        const marker = L.marker(new L.LatLng(a.latitude, a.longitude), {
+            icon: L.mapbox.marker.icon({'marker-color': '0044FF'}),
+            title: title
+        });
+        marker.bindPopup(title);
+        markers.addLayer(marker);
+    }
+
+    map.addLayer(markers);
+</script>
+</body>
+</html>
